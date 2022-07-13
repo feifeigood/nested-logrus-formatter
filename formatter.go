@@ -78,7 +78,7 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 		fmt.Fprintf(b, "\x1b[%dm", levelColor)
 	}
 
-	b.WriteString(" [")
+	b.WriteString("\t[")
 	if f.ShowFullLevel {
 		b.WriteString(level)
 	} else {
@@ -87,7 +87,7 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 	b.WriteString("]")
 
 	if !f.NoFieldsSpace {
-		b.WriteString(" ")
+		b.WriteString("\t")
 	}
 
 	if !f.NoColors && f.NoFieldsColors {
@@ -102,7 +102,7 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 	}
 
 	if f.NoFieldsSpace {
-		b.WriteString(" ")
+		b.WriteString("\t")
 	}
 
 	if !f.NoColors && !f.NoFieldsColors {
@@ -170,7 +170,7 @@ func (f *Formatter) writeOrderedFields(b *bytes.Buffer, entry *logrus.Entry) {
 	if length > 0 {
 		notFoundFields := make([]string, 0, length)
 		for field := range entry.Data {
-			if foundFieldsMap[field] == false {
+			if !foundFieldsMap[field] {
 				notFoundFields = append(notFoundFields, field)
 			}
 		}
@@ -191,7 +191,7 @@ func (f *Formatter) writeField(b *bytes.Buffer, entry *logrus.Entry, field strin
 	}
 
 	if !f.NoFieldsSpace {
-		b.WriteString(" ")
+		b.WriteString("\t")
 	}
 }
 
